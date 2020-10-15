@@ -1,4 +1,7 @@
 # openwrt-packages
+
+***小白自用，无技术支持***
+
 国内常用OpenWrt软件包源码合集，每天自动更新，建议使用lean源码
 
 
@@ -19,12 +22,11 @@
 ```
 2. 或者添加下面代码到feeds.conf.default文件
 ```bash
- src-git liuran001_packages https://github.com/hzjflying123/openwrt-packages
+ src-git hzjflying123_packages https://github.com/hzjflying123/openwrt-packages
 ```
 3. 先cd进package目录，然后执行
 ```bash
  svn co https://github.com/hzjflying123/openwrt-packages/branches/packages
 ```
 
-## 不要为了下载而Fork这个项目，而且你Fork了不修改是不能自动拉取源码并推送的
-`Actions页面报错是正常的，因为只有上游有更新时才能成功上传`
+
