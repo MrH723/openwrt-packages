@@ -22,8 +22,6 @@
 <table border="1">
 <tr bgcolor=silver>
 <th>User</th>
-<th>Down Speed</th>
-<th>Up Speed</th>
 <th>Download</th>
 <th>Upload</th>
 <th>Total</th>

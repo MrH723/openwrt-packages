@@ -6,14 +6,11 @@ runMode=0
 Monitor46=4
 
 # Some parameters for monitor process.
-for46=
 updatePID=
 logFile=/var/log/wrtbwmon.log
 lockFile=/var/lock/wrtbwmon.lock
 pidFile=/var/run/wrtbwmon.pid
 tmpDir=/var/tmp/wrtbwmon
-interval4=0
-interval6=0
 
 # Debug parameters for readDB.awk.
 mode=
@@ -35,7 +32,7 @@ interfaces='eth0 tun0 br-lan' # in addition to detected WAN
 # don't perform reverse DNS lookups by default
 DO_RDNS=${DNS-}
 
-header="#mac,ip,iface,speed_in,speed_out,in,out,total,first_date,last_date"
+header="#mac,ip,iface,in,out,total,first_date,last_date"
 
 createDbIfMissing() {
 	[ ! -f "$DB" ] && echo $header > "$DB"
@@ -203,11 +200,11 @@ publish() {
 	rm -f $htmPage
 	cp $dataDir/usage.htm1 $htmPage
 
-	while IFS=, read PEAKUSAGE_IN MAC IP IFACE SPEED_IN SPEED_OUT PEAKUSAGE_OUT TOTAL FIRSTSEEN LASTSEEN
+	while IFS=, read PEAKUSAGE_IN MAC IP IFACE PEAKUSAGE_OUT TOTAL FIRSTSEEN LASTSEEN
 	do
 		echo "
-new Array(\"$(lookup $MAC $IP $user_def)\",\"$MAC\",\"$IP\",$SPEED_IN,$SPEED_OUT,
-$PEAKUSAGE_IN,$PEAKUSAGE_OUT,$TOTAL,\"$FIRSTSEEN\",\"$LASTSEEN\")," >> $htmPage
+new Array(\"$(lookup $MAC $IP $user_def)\",\"$MAC\",\"$IP\",
+$PEAKUSAGE_IN,$PEAKUSAGE_OUT,$TOTAL,\"$FIRSTSEEN\",\"$LASTSEEN\")," >> ${pb_html}.tmp
 	done < $tmpDir/sorted_${updatePID}.tmp
 	echo "0);" >> $htmPage
 
@@ -221,28 +218,23 @@ updatePrepare() {
 	checkDB
 	[ -e $tmpDir ] || mkdir -p  $tmpDir
 
-	for46="$Monitor46"
 	local timeNow=$(cat /proc/uptime | awk '{print $1}')
-
+	local timeLast=0
 	if [ -e "$logFile" ]; then
-		local timeLast4=$(awk -F'[: ]+' '/ipv4/{print $2}' "$logFile")
-		local timeLast6=$(awk -F'[: ]+' '/ipv6/{print $2}' "$logFile")
-		interval4=$(awk -v now=$timeNow -v last=$timeLast4 'BEGIN{print (now-last)}');
-		interval6=$(awk -v now=$timeNow -v last=$timeLast6 'BEGIN{print (now-last)}');
+		timeLast=$(awk -F, '{print $1}' "$logFile")
+		interval=$(awk -v now=$timeNow -v last=$timeLast 'BEGIN{print (now-last)}')
+		echo $interval
 
-		for ii in 4 6; do
-			[[ -n "$(echo $for46 | grep ${ii})" ]] && {
-				if [[ "$(eval echo \$interval${ii})" \> "0.9" ]]; then
-					sed -i "s/^ipv${ii}: [0-9\.]\{1,\}/ipv${ii}: $timeNow/ig" "$logFile"
-				else
-					for46=`echo "$for46" | sed "s/${ii}//g"`
-				fi
-			}
-		done
+		if [[ $interval \> 0.2 ]]; then
+			echo $timeNow >"$logFile"
+			return 0
+		else
+			return 1
+		fi
 	else
-		echo -e "ipv4: $timeNow\nipv6: $timeNow" >"$logFile"
+		echo $timeNow >"$logFile"
+		return 0
 	fi
-	return 0
 }
 
 update() {
@@ -254,9 +246,9 @@ update() {
 	checkWAN $wan
 	interfaces="$interfaces $wan"
 
-	[ "$for46" = 4 ] && IPT='iptables'
-	[ "$for46" = 6 ] && IPT='ip6tables'
-	[ "$for46" = 46 ] && IPT='iptables ip6tables'
+	[ "$Monitor46" = 4 ] && IPT='iptables'
+	[ "$Monitor46" = 6 ] && IPT='ip6tables'
+	[ "$Monitor46" = 46 ] && IPT='iptables ip6tables'
 
 	for ii in $IPT ; do
 		if [ -z "$( ${ii}-save | grep RRDIPT )" ]; then
@@ -281,7 +273,8 @@ update() {
 	done
 
 	[ -f $tmpDir/iptables_${updatePID}.tmp ] && (
-		awk -v mode="$mode" -v interfaces="$interfaces" -v wanIF="$wan" -v interval=$interval4 \
+		local ipReg=`uci get network.lan.ipaddr | grep -o -e '\([0-9]\+\.\)\{2\}[0-9]\+'`;
+		awk -v mode="$mode" -v interfaces="$interfaces" -v ipReg="$ipReg" -v wanIF="$wan" \
 		-v ipv6="0" -f $binDir/readDB.awk \
 		$DB \
 		/proc/net/arp \
@@ -291,8 +284,9 @@ update() {
 	[ -f $tmpDir/ip6tables_${updatePID}.tmp ] && (
 		echo "This file is geneated by 'ip -6 neigh'" > $tmpDir/ip6addr_${updatePID}.tmp
 		`ip -6 neigh >> $tmpDir/ip6addr_${updatePID}.tmp`;
+		local ipReg=`ip -6 route | grep default | awk '{print $3}' | awk -F: '{print $1}'`;
 
-		awk -v mode="$mode" -v interfaces="$interfaces" -v wanIF="$wan" -v interval=$interval6 \
+		awk -v mode="$mode" -v interfaces="$interfaces" -v ipReg="$ipReg" -v wanIF="$wan" \
 		-v ipv6="1" -f $binDir/readDB.awk \
 		"$DB6" \
 		$tmpDir/ip6addr_${updatePID}.tmp \
@@ -333,7 +327,7 @@ ending() {
 checkPid() {
 	[ -e "$1" ] && local pid=$(cat $1) || return 1
 	[ -d "/proc/$pid" ] && {
-		[ -n "$( cat /proc/$pid/cmdline | grep wrtbwmon )" ] && return 0
+		[ -n $(echo $(cat "/proc/$pid/cmdline") | grep wrtbwmon ) ]  && return 0
 	}
 	return 1
 }
@@ -352,7 +346,7 @@ loop() {
 		local SPID=
 		echo $loopPID > $pidFile
 		while true ;do
-			[ -n "$SPID" ] && kill -9 $SPID >>/dev/null 2>&1
+			[ -n $SPID ] && kill -9 $SPID >>/dev/null 2>&1
 			sleepProcess $loopPID &
 			SPID=$!
 			updatePrepare && update

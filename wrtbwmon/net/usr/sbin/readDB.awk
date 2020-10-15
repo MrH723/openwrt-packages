@@ -50,23 +50,21 @@ ARGIND==1 { #!@todo this doesn't help if the DB file is empty.
 		mac[lb]		= $1
 		ip[lb]		= $2
 		inter[lb]	= $3
-		speed[lb "/in"]	= 0
-		speed[lb "/out"]= 0
-		bw[lb "/in"]	= $6
-		bw[lb "/out"]	= $7
-		firstDate[lb]	= $9
-		lastDate[lb]	= $10
+		bw[lb "/in"]	= $4
+		bw[lb "/out"]	= $5
+		firstDate[lb]	= $7
+		lastDate[lb]	= $8
 		ignore[lb]	= 1
 	} else {
-		if ($9 < firstDate[lb])
-			firstDate[lb]	= $9
-		if ($10 > lastDate[lb]) {
+		if ($7 < firstDate[lb])
+			firstDate[lb]	= $7
+		if ($8 > lastDate[lb]) {
 			ip[lb]		= $2
 			inter[lb]	= $3
-			lastDate[lb]	= $10
+			lastDate[lb]	= $8
 		}
-		bw[lb "/in"]	+= $6
-		bw[lb "/out"]	+= $7
+		bw[lb "/in"]	+= $4
+		bw[lb "/out"]	+= $5
 		ignore[lb]	= 0
 	}
 	next
@@ -92,7 +90,7 @@ ARGIND==2 {
 	}
 
 	lb=$1
-	if (hwIF != wanIF && statFlag && macAddr ~ "^([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}$") {
+	if (hwIF != wanIF && lb ~ "^" ipReg && statFlag && macAddr ~ "^([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}$") {
 		hosts[lb]		= 1
 		arp_mac[lb]		= macAddr
 		arp_ip[lb]		= $1
@@ -186,21 +184,16 @@ END {
 			mac[lb]		= arp_mac[i]
 			ip[lb]		= arp_ip[i]
 			inter[lb]	= arp_inter[i]
-
-			if (interval != 0) {
-				speed[lb "/in"]	= int(arp_bw[i "/in"] / interval)
-				speed[lb "/out"]= int(arp_bw[i "/out"] / interval)
-			}
 		}
 	}
 
 	close(dbFile)
 	for (i in mac) {
 		if (!ignore[i]) {
-			print "#mac,ip,iface,speed_in,speed_out,in,out,total,first_date,last_date" > dbFile
+			print "#mac,ip,iface,in,out,total,first_date,last_date" > dbFile
 			OFS=","
 			for (i in mac)
-				print mac[i], ip[i], inter[i], speed[i "/in"], speed[i "/out"], bw[i "/in"], bw[i "/out"], total(i), firstDate[i], lastDate[i] > dbFile
+				print mac[i], ip[i], inter[i], bw[i "/in"], bw[i "/out"], total(i), firstDate[i], lastDate[i] > dbFile
 			close(dbFile)
 			break
 		}

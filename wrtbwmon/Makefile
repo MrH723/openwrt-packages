@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2006-2011 Xmlad.com
+# Copyright (C) 2006-2019 OpenWrt.org
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
@@ -8,7 +8,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=wrtbwmon
-PKG_VERSION:=1.2.1
+PKG_VERSION:=0.9.2
 PKG_RELEASE:=1
 
 include $(INCLUDE_DIR)/package.mk
@@ -16,18 +16,14 @@ include $(INCLUDE_DIR)/package.mk
 define Package/wrtbwmon
 	SECTION:=net
 	CATEGORY:=Network
-	DEPENDS:=+busybox +iptables +!BUSYBOX_DEFAULT_IP:ip-full
+	DEPENDS:=+busybox +iptables @!BUSYBOX_DEFAULT_IP:ip-full
 	TITLE:=A Traffic Usage Monitor
 	SUBMENU:=Tools
 	PKGARCH:=all
 endef
 
 define Package/wrtbwmon/description
-An CERNET client daemon,
-Most usually used in China collages.
-endef
-
-define Build/Prepare
+	A traffic usage monitor client daemon based on bash script.
 endef
 
 define Build/Configure
