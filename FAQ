@@ -1,0 +1,79 @@
+Q: What are AT commands?
+
+A: First of all, reading the V.250 standard (see link in README) will
+give you a much better answer than anything I write here, so the following
+is just written to give you an approximately idea of what AT commands are.
+Please read the V.250 specification after finishing this file!
+
+AT commands are named so because the two first characters (on a command
+line) are the characters 'A' and 'T'. AT commands have been used to
+configure and operate modems "since forever". One of the first and most
+influencial modem manefacturers that created AT commands was Hayes, and
+thus you might come across one or two odd references to Hayes commands
+instead of AT commands.
+
+
+Q: What are some examples of AT commands?
+
+A:
+To request manufacturer identification: AT+GMI
+To start a voice call (to phone number 123...): ATD1234567890;
+To end a call: ATH
+
+Mobile phones also typically support commands to send/read SMS messages,
+read/edit phonebook entries, query/change network operator, etc. See
+the standards 27.005 and 27.007.
+
+
+Q: What is the protocol sequence of executing an AT command?
+
+A: The computer starts by sending an AT command to the modem. The modem
+starts processing the command and might send back some text while doing
+so. When the modem is finished processing the command it sends back a
+"Final result code" to indicate that it is done. After the reception of
+the Final result code, the computer can send another command.
+
+Example:
+
+AT+GMI                              // pc ------> modem
+Magnificent Modem Maker             // modem ---> pc
+                                    // modem ---> pc
+OK                                  // modem ---> pc
+
+
+Q: What are the different types of responses a modem can give?
+
+A: Responses from the modem can be of three fundamental types:
+
+1) Final result code: Indicates that the execution of the currently
+running AT command is finished. Examples: OK and ERROR.
+
+2) Intermediate result code or Information text: Responses related to a
+command that comes before the final result code. Examples: CONNECT and
++CPBR.
+
+3) Unsolicited result code: Responses that the modem issues independently
+of any running AT command as response to certain events (in the
+modem). Examples: RING and +CREG.
+
+
+Q: What are the typical names of the serial port/modem device?
+
+A: For a plain RS-232 serial port on the PC the names on Linux operating
+systems are /dev/ttyS0 for the first one, counting up. On Windows the
+corresponding name is COM1. This hardware interface was commonly used
+for modems a decade ago and before, but is less common these days.
+
+When connecting a mobile phone with a USB cable, it will (when
+configured/asked to do so) provide two virtual serial interfaces. On
+Linux these are named /dev/ttyACM0 and /dev/ttyACM1, or occationally
+/dev/ttyUSB0 and /dev/ttyUSB1. On Windows these end up as COM<number>
+where <number> is somewhere in the range 5 and upwards (possibly leaving
+large gaps of unallocated com ports). You can most likely fingure out
+what number from looking in the device manager.
+
+If you try to run atinout within an Android phone, the device names (if
+present) varies a bit depending on manefacturer. Possible options seems
+to be /dev/smd0 or /dev/ttyGS0 most commonly, possibly also /dev/xmd-tty0,
+/dev/ttyUSB0 or /dev/SMD0 (most likely an incomplete list).
+
