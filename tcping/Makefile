@@ -7,7 +7,6 @@
 
 include $(TOPDIR)/rules.mk
 
-
 PKG_NAME:=tcping
 PKG_VERSION:=0.3
 PKG_RELEASE:=1
@@ -25,7 +24,7 @@ define Package/tcping
 	SECTION:=net
 	CATEGORY:=Network
 	TITLE:=tcping measures the latency of a tcp-connection
-	URL:=https://github.com/jlyo/tcping
+	URL:=https://github.com/Lienol/tcping
 endef
 
 define Package/tcping/description
