@@ -1,2 +1,2 @@
-# openwrt-package
- openwrt-package
+# openwrt-packages
+ openwrt-packages
