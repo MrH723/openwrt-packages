@@ -35,19 +35,6 @@
 	http.prepare_content("text/html")
     
     math.randomseed(os.time())
-	function glob(...)
-		local iter, code, msg = fs.glob(...)
-		if iter then
-			return nutil.consume(iter)
-		else
-			return nil, code, msg
-		end
-	end
-
-	local bgcount = 0
-	for f in ipairs(glob("/www/luci-static/edge/img/*")) do
-		bgcount = bgcount + 1
-	end
     
 
 -%>
@@ -129,22 +116,6 @@
 <body
 	class="lang_<%=luci.i18n.context.lang%> <% if node then %><%= striptags( node.title ) %><% end %> <% if luci.dispatcher.context.authsession then %>logged-in<% end %>"
 	data-page="<%= table.concat(disp.context.requestpath, "-") %>">
-<!--[if lt IE 9]>
-<style>
-.chromeframe{
-padding:2rem 3rem;
-margin:0 auto;
-font-size:14px;
-color:#fff;
-position:relative;
-z-index:9999;
-text-align:center;
-}
-.chromeframe a{
-color:orangered;
-}
-</style>
-<p class="chromeframe">您使用的IE浏览器版本过低,
-<a href="https://www.microsoft.com/edge/" target="_blank" class="textToLink one-pan-link-mark"> 升级 </a>您的IE浏览器<br/>
-或使用<a href="http://www.google.com/chromeframe/?redirect=true"> Chrome </a>, <a href="https://www.mozilla.org/zh-CN/firefox/new/"> Firefox </a>等高级浏览器，将会得到更好的体验！</a></p>
-<![endif]-->
+
+<p class="chromeframe">您使用的浏览器过于老旧,
+请使用<a href="https://www.microsoft.com/zh-cn/edge"> Edge </a>, <a href="https://www.mozilla.org/zh-CN/firefox/new/"> Firefox </a>等高级浏览器.</a></p>

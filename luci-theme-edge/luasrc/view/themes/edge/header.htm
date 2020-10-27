@@ -35,20 +35,6 @@
 	http.prepare_content("text/html")
     
     math.randomseed(os.time())
-	function glob(...)
-		local iter, code, msg = fs.glob(...)
-		if iter then
-			return nutil.consume(iter)
-		else
-			return nil, code, msg
-		end
-	end
-
-	local bgcount = 0
-	for f in ipairs(glob("/www/luci-static/edge/img/*")) do
-		bgcount = bgcount + 1
-	end
-    
 
 -%>
 <!DOCTYPE html>
@@ -70,8 +56,8 @@
 	<meta name="msapplication-TileImage" content="<%=media%>/logo.png" />
 	<link rel="icon" href="<%=media%>/logo.png" sizes="144x144">
 	<link rel="apple-touch-icon-precomposed" href="<%=media%>/logo.png" sizes="144x144">
-			<link rel="stylesheet" href="<%=media%>/waves.css?v=2.1">
-	<link rel="stylesheet" href="<%=media%>/cascade.css?v=2.1">
+			<link rel="stylesheet" href="<%=media%>/waves.css">
+	<link rel="stylesheet" href="<%=media%>/cascade.css">
 	<link rel="shortcut icon" href="<%=media%>/favicon.ico">
 	<% if node and node.css then %>
 	<link rel="stylesheet" href="<%=resource%>/<%=node.css%>">
@@ -82,9 +68,9 @@
 	</style>
 	<% end -%>
 	<script src="<%=url('admin/translations', luci.i18n.context.lang)%>"></script>
-	<script src="<%=resource%>/cbi.js?v=2.1"></script>
-	<script src="<%=resource%>/luci.js?v=2.1"></script>
-	<script src="<%=media%>/js/jquery.min.js?v=2.1"></script>
+	<script src="<%=resource%>/cbi.js"></script>
+	<script src="<%=resource%>/luci.js"></script>
+	<script src="<%=media%>/js/jquery.min.js"></script>
 		<script type="text/javascript">//<![CDATA[
 	function EF() { return L.dom.create.apply(L.dom, arguments) }
 		(function() {
