@@ -906,13 +906,12 @@ header .fill .status * {
 
 .main .main-left .nav>li>a {
 	display: block;
-	margin: 0.1rem 0.5rem 0.1rem 0.5rem;
-	padding: 0.675rem 0 0.675rem 2.5rem;
+	margin: 0.4rem 0.5rem !important;
+	padding: 0.5rem 0 0.5rem 2.5rem !important;
 	transition: box-shadow .25s, -webkit-box-shadow .25s;
 	border-radius: 2px;
 	text-decoration: none;
 	cursor: default;
-	font-size: 1rem;
 	transition: all 0.2s;
 	position: relative;
 }
@@ -1408,7 +1407,6 @@ td > table > tbody > tr > td,
 	text-align: center;
 	vertical-align: middle;
 	text-decoration: none;
-	text-transform: uppercase;
 	color: #fff;
 	border: 0;
 	border-radius: 0.2rem;
@@ -3984,13 +3982,6 @@ h2 {
 	font-size: 1.4rem !important;
 }
 
-.main .main-left .nav>li>a:first-child {
-	font-size: 0.9rem !important;
-	margin-top: 0.4rem !important;
-	margin-bottom: 0.4rem !important;
-	padding: 0.5rem 0 0.5rem 2.5rem !important;
-}
-
 .main .main-left .nav li .slide-menu li {
 	padding: 0.4rem 0rem !important;
 }
@@ -4047,6 +4038,7 @@ input,select {
 .btn,button,
   .cbi-button,input[type=button],input[type=submit],input[type=reset],.waves-input-wrapper {
 	height: auto !important;
+	width: auto !important;
 	padding: 0.6rem 1.6rem;
 	line-height: 1rem;
 	webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
@@ -4080,8 +4072,8 @@ h2,.cbi-map-descr {
 
 @media screen and (max-width: 1680px) and (min-width: 1280px) {
 .cbi-map >.cbi-section .cbi-section-table,.cbi-map >.cbi-section .cbi-tabmenu,.cbi-map >.cbi-section .table {
-	margin-left: -1.95rem;
-	width: 105.4%
+	margin-left: -1.95rem !important;
+	width: 105.4% !important;
 }
 }
 
