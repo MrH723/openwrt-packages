@@ -1967,7 +1967,7 @@ body:not(.Interfaces) .cbi-rowstyle-2:first-child {
 	width: auto;
 	min-width: 100%;
 	max-width: none;
-	max-height: 200px !important;
+	max-height: 200px;
 	border: thin solid #918e8c;
 	background: #f6f6f6;
 	box-shadow: 0 0 4px #918e8c;
@@ -3193,9 +3193,25 @@ input[type="checkbox"] {
 	padding: 0;
 	cursor: pointer;
 	transition: all 0.2s;
+	
+	pointer-events: none;
+}
+
+input[type="checkbox"][data-widget-id]{
 	position: absolute;
 	opacity: 0;
-	pointer-events: none;
+}
+.cbi-dropdown[open]>ul.dropdown>li label {
+    margin-left: .5rem;
+}
+
+.cbi-dropdown-open .cbi-dropdown[open] > ul.dropdown{
+	position:relative !important;
+	bottom:0 !important;
+}
+
+.cbi-dropdown-open .preview,.cbi-dropdown-open .more,.cbi-dropdown-open .open{
+display:none !important;	
 }
 
 input[type="checkbox"]:checked {
