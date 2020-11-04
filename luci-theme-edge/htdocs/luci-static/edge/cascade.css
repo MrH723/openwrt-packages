@@ -364,45 +364,6 @@ a {
 	width: 100%;
 }
 
-.col-1 {
-	flex: 1 1 30px !important;
-}
-
-.col-2 {
-	flex: 2 2 60px !important;
-}
-
-.col-3 {
-	flex: 3 3 90px !important;
-}
-
-.col-4 {
-	flex: 4 4 120px !important;
-}
-
-.col-5 {
-	flex: 5 5 150px !important;
-}
-
-.col-6 {
-	flex: 6 6 180px !important;
-}
-
-.col-7 {
-	flex: 7 7 210px !important;
-}
-
-.col-8 {
-	flex: 8 8 240px !important;
-}
-
-.col-9 {
-	flex: 9 9 270px !important;
-}
-
-.col-10 {
-	flex: 10 10 300px !important;
-}
 
 * {
 	box-sizing: border-box;
@@ -914,6 +875,7 @@ header .fill .status * {
 	cursor: default;
 	transition: all 0.2s;
 	position: relative;
+	font-size: 0.93rem;
 }
 
 .main .main-left .nav li .menu.active {
@@ -1414,8 +1376,8 @@ td > table > tbody > tr > td,
 	min-width: 0;
 	padding: 0.2rem 0.3rem;
 	color: transparent !important;
-	background: url(icons/arrow.svg) no-repeat center;
-	background-size: 12px 20px;
+	background: url(icons/arrow.svg) no-repeat center !important;
+	background-size: 12px 20px !important;
 }
 
 .cbi-button-up {
@@ -3021,11 +2983,6 @@ input[name="nslookup"] {
 	padding-top: 0.1rem;
 }
 
-.td.version,
-.td.size {
-	white-space: normal !important;
-	word-break: break-word;
-}
 
 .cbi-tabmenu + .cbi-section {
 	margin-top: 0;
@@ -3603,14 +3560,6 @@ input[type="checkbox"]:checked {
 		display: inline-block;
 	}
 
-	.main > .main-left > .nav > .slide > .menu {
-		font-size: 1.2rem;
-	}
-
-	.main > .main-left > .nav > .slide > .slide-menu > li > a {
-		font-size: 0.8rem;
-	}
-
 	.cbi-section > div {
 		overflow-x: auto;
 	}
@@ -4117,6 +4066,10 @@ div[id^="cbi-unblockmusic"] .cbi-button {
 	padding-left: 1.5rem;
 }
 
+.cbi-section-table .tr>.td:last-child,#packages .tr>.td:last-child{
+	padding-right:3%;
+}
+
 .command-output {
 	padding: 0 2rem;
 }
@@ -4147,4 +4100,15 @@ div[id^="cbi-unblockmusic"] .cbi-button {
 	position: absolute;
 	width: 100%;
 	height: 100%;
+}
+
+@media screen and (max-width: 1152px) {
+#packages .tr {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+#packages .td {
+    padding: 1em 2rem;
+}
 }
