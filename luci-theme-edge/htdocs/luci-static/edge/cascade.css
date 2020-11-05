@@ -1164,6 +1164,10 @@ h5 {
 	text-decoration: underline;
 }
 
+fieldset.cbi-section{
+border:none;	
+}
+
 .cbi-section > legend {
 	display: none !important;
 }
@@ -3167,11 +3171,6 @@ input[type="checkbox"] {
 	transition: all 0.2s;
 	
 	pointer-events: none;
-}
-
-input[type="checkbox"][data-widget-id]{
-	position: absolute;
-	opacity: 0;
 }
 
 .cbi-dropdown[open]>ul.dropdown>li label {
