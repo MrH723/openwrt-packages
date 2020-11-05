@@ -1392,46 +1392,17 @@ td > table > tbody > tr > td,
 	-webkit-appearance: none !important;
 }
 
-.btn:hover,
-.btn:focus,
-.btn:active,
-.cbi-button:hover,
-.cbi-button:focus,
-.cbi-button:active,
-.item:hover::after,
-.item:focus::after,
-.item:active::after,
-.cbi-page-actions .cbi-button-apply + .cbi-button-save:hover,
-.cbi-page-actions .cbi-button-apply + .cbi-button-save:focus,
-.cbi-page-actions .cbi-button-apply + .cbi-button-save:active {
-	text-decoration: none;
-	outline: 0;
-}
-
 button:hover,
 .waves-input-wrapper:hover,
 .btn:hover,
-.btn:focus,
 .cbi-button:hover,
-.cbi-button:focus,
-.item:hover::after,
-.item:focus::after {
+.item:hover::after {
 	opacity: 0.7;
-	top: 0.15rem;
-}
-
-.btn:active,
-.cbi-button:active,
-.item:active::after {
-	opacity: 0.7;
+	top: 0.1rem;
 }
 
 .cbi-button-up:hover,
 .cbi-button-up:focus {
-	opacity: 0.7;
-}
-
-.cbi-button-up:active {
 	opacity: 0.7;
 }
 
@@ -1958,6 +1929,7 @@ body:not(.Interfaces) .cbi-rowstyle-2:first-child {
 .cbi-dropdown > ul > li > form > input[type="checkbox"] {
 	height: auto;
 	margin: 0;
+	display:inline-block;
 }
 
 .cbi-dropdown > ul > li input[type="text"] {
@@ -2630,8 +2602,8 @@ span[data-tooltip] .label {
 	background-color: #D2FFE8;
 }
 
-label > input[type="checkbox"],
-label > input[type="radio"] {
+input[type="checkbox"],
+input[type="radio"] {
 	position: relative;
 	right: 0.2rem;
 	margin: 0;
@@ -3197,8 +3169,7 @@ input[type="checkbox"] {
 	padding: 0;
 	cursor: pointer;
 	transition: all 0.2s;
-	
-	pointer-events: none;
+	display:none;
 }
 
 .cbi-dropdown[open]>ul.dropdown>li label {
