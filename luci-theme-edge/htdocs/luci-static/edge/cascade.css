@@ -4109,3 +4109,9 @@ div[id^="cbi-unblockmusic"] .cbi-button {
 	height: 100%;
 }
 
+[data-page="admin-network-wifi"] tr > td .cbi-button{
+	margin-left: 0 !important;
+}
+[data-page="admin-network-wifi"] tr > td input[type="button"]{
+	    padding: 0.5rem 1rem !important;
+}
