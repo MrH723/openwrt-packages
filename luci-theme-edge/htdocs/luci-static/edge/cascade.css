@@ -2719,7 +2719,7 @@ input[name="nslookup"] {
 	transition: box-shadow .25s, -webkit-box-shadow .25s;
 	border-radius: 2px;
 	text-align: left;
-	background: #faf5f3c2;
+	background: rgba(255, 255, 255, 0.75);
 	margin: 0;
 }
 
