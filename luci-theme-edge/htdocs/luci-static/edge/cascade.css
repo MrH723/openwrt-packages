@@ -1484,7 +1484,7 @@ button:hover,
 	font-weight: normal;
 	color: #fff;
 	border: none;
-	background-color: #00CFDD !important;
+	background-color: #23bd70 !important;
 }
 /* green */
 .cbi-button-success,
@@ -3633,11 +3633,11 @@ input[type="checkbox"]:checked {
 }
 
 .cbi-button,.btn {
-	background-color: #00CFDD;
+	background-color: #23bd70;
 }
 
 .cbi-button.reconnect {
-	background-color: #00CFDD !important;
+	background-color: #23bd70 !important;
 }
 
 .cpu .cbi-progressbar > div {
@@ -4115,9 +4115,8 @@ div[id^="cbi-unblockmusic"] .cbi-button {
 table.interfaces .th{
 	padding:1.1em 0.5rem !important;
 }
-.cbi-value-field>div:first-child{
-	 display: inline-flex !important;
-    cursor: pointer;
+.cbi-value>.cbi-value-field>div:first-child+br{
+display:none;
 }
 .cbi-page-actions.control-group.fixed {
     position: fixed;
