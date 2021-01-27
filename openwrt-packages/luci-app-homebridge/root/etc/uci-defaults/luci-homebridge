@@ -1,0 +1,9 @@
+#!/bin/sh
+uci -q batch <<-EOF >/dev/null
+	delete ucitrack.@homebridge[-1]
+	add ucitrack homebridge
+	set ucitrack.@homebridge[-1].init=homebridge
+	commit ucitrack
+EOF
+killall -HUP rpcd 2>/dev/null
+exit 0

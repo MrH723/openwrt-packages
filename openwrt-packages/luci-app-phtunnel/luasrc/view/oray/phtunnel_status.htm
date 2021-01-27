@@ -1,0 +1,140 @@
+<%+header%>
+
+<script type="text/javascript">
+function reload_this_page() {
+	window.location.reload()
+}
+
+function create_xml_http_request() {
+	var xml_http
+	try {
+		xml_http = new XMLHttpRequest()
+	} catch (e) {
+		try {
+			xml_http = new ActiveXObject("Msxml2.XMLHTTP");
+		} catch (e) {
+			try {
+				xml_http = new ActiveXObject("Msxml2.XMLHTTP");                                                                                                                                                             
+			}
+			catch (e)                                                                                                                                                                                                           
+			{
+			}
+		}
+	}
+	return xml_http
+}
+
+function get_login_info() {
+	var xml_http = create_xml_http_request()
+	if (!xml_http) {
+		alert('Error : no xml http request')
+		return
+	}
+
+	var url = window.location.href.replace("phtunnel/status", "phtunnel/inner_status")
+	xml_http.open("GET", url)
+	xml_http.send(null)
+	xml_http.onreadystatechange = function() {
+		if (xml_http.readyState == 4 && xml_http.status == 200) {
+			if (xml_http.responseText.length > 0) {
+				var response_json = JSON.parse(xml_http.responseText)
+				if (response_json.url.length > 0)
+					reload_this_page()
+			}
+		}
+	}
+}
+
+function load_qr_img_success_process() {
+	document.getElementById("qrimg").innerHTML = "Scan this Image"
+}
+
+function load_qr_img_failed_process() {
+	document.getElementById("qrimg").innerHTML = "load qrcode image failed"
+}
+
+function log_off() {
+	var xml_http = create_xml_http_request()
+	if (!xml_http) {
+		alert('Error : no xml http request')
+		return
+	}
+
+	var url = window.location.href.replace("phtunnel/status", "phtunnel/log_off")
+	xml_http.open("GET", url)
+	xml_http.send(null)
+	xml_http.onreadystatechange = function() {
+		if (xml_http.readyState == 4 && xml_http.status == 200) {
+			if (xml_http.responseText.length > 0) {
+				var response_json = JSON.parse(xml_http.responseText)
+				if (response_json.code == 0) {
+					alert("log off ok")
+					reload_this_page()
+					return
+				}
+				alert("log off failed : " + response_json.error_msg)
+			}
+		}
+	}
+}
+
+</script>
+
+<%
+require("luci.phtunnel")
+
+--输出二
+local function display_qrimage(sn, pwd)
+	local qrcode, qrcodeimg, ttl = luci.phtunnel.get_qrimage(sn, pwd)
+	if qrcode and qrcodeimg then
+		print("<img src='" .. qrcodeimg .. "' onload=\"load_qr_img_success_process();setInterval(reload_this_page, " .. ((ttl and ttl or 300) * 1000) .. ")\" onerror=\"load_qr_img_failed_process()\" onabort=\"load_qr_img_failed_process()\" /><div id='qrimg'></div>")
+	end
+	print("<br/>")
+end
+
+local function main()
+	local base_info_code, device_sn, device_pwd, device_status, public_ip = luci.phtunnel.get_base_info()
+	if not base_info_code then
+		print("phtunnel is not running")
+		return
+	end
+
+	if base_info_code ~= 0 then
+		print("get sn failed and code = " .. base_info_code)
+		return
+	end
+
+	--输出基本信息
+	print("<b>sn</b>:" .. (device_sn and device_sn or "no sn") .. "<br/>")
+	print("<b>device status</b>:" .. (device_status and luci.phtunnel.convert_status(device_status) or "no status") .. "<br/>")
+	print("<b>public ip</b>:" .. (public_ip and public_ip or "no public ip") .. "<br/>")
+
+
+	--登录信息查看
+	local login_info_code, url, bind_account = luci.phtunnel.get_login_info()
+	if not login_info_code then
+		print("get manager url failed")
+		return
+	end
+
+	if login_info_code ~= 0 then
+		print("get manger url failed and code = " .. login_info_code)
+		return
+	end
+
+	if not url or url == "" then
+		display_qrimage(device_sn, device_pwd)
+		print("<script type=\"text/javascript\">setInterval(get_login_info, 3000)</script>")
+		return
+	end
+
+	print("<b>bind account</b>:<font color=red>" .. (bind_account and bind_account or "<b>*</b>") .. "</font>")
+	print("(<a href='#' onclick='log_off();return(false)'>log off</a>)</br>");
+	print("<a href='" .. (url and url or '#') .. "' target=_blank>manager link</a></br>");
+end
+
+main()
+%>
+
+<%+footer%>
+

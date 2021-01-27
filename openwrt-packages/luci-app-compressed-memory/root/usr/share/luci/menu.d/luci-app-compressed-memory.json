@@ -1,0 +1,14 @@
+{
+	"admin/system/compressed_memory": {
+		"title": "Compressed memory",
+		"order": 51,
+		"action": {
+			"type": "view",
+			"path": "system/compressed_memory"
+		},
+		"depends": {
+			"acl": [ "luci-app-compressed-memory" ],
+			"uci": { "compressed_memory": true }
+		}
+	}
+}

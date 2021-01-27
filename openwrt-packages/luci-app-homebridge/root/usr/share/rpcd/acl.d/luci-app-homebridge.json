@@ -1,0 +1,11 @@
+{
+	"luci-app-homebridge": {
+		"description": "Grant access to homebridge",
+		"read": {
+			"uci": ["homebridge"]
+		},
+		"write": {
+			"uci": ["homebridge"]
+		}
+	}
+}

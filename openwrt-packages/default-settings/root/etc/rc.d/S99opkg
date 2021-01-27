@@ -1,0 +1,106 @@
+#!/bin/sh
+LOCK=/var/lock/opkgupgrade.lock
+# 防止重复启动
+[ -f $LOCK ] && exit 1
+touch $LOCK
+
+if [ "$(uci get network.wan.ipv6)" == 0 ]; then
+	sysctl -w net.ipv6.conf.all.disable_ipv6=1
+	sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+	sysctl -w net.ipv6.conf.default.disable_ipv6=1
+	sysctl -w net.ipv6.conf.all.disable_ipv6=1
+else
+	sysctl -w net.ipv6.conf.all.disable_ipv6=0
+	sysctl -w net.ipv6.conf.lo.disable_ipv6=0
+	sysctl -w net.ipv6.conf.default.disable_ipv6=0
+	sysctl -w net.ipv6.conf.all.disable_ipv6=0
+fi
+if [ ! -f /etc/inited ]; then
+	[ "$(uci get dhcp.@dnsmasq[0].noresolv)" ] && {
+		uci del dhcp.@dnsmasq[0].noresolv
+		uci commit dhcp
+		service dnsmasq reload
+	}
+# sh -c "cat '/usr/share/patch/adblock.patch'  | patch -d '/' -p1 --forward" >/dev/null 2>&1
+fi
+
+if [ ! -f "/etc/backup/installed_packages.txt" ]; then
+	touch /etc/inited
+fi
+
+function opkgupgrade() {
+	c1=0
+	c2=0
+	c3=0
+	rm -f /tmp/opkgupdate.log
+	while ! curl --retry 3 -m 5 https://op.supes.top >/dev/null 2>&1;do
+		echo "无法连接仓库服务器,请检查网络. $c1" >>/tmp/opkgupdate.log
+		[ $c1 == 120 ] && return || let c1++
+		sleep 5
+	done
+			while :; do
+			opkg update >>/tmp/opkgupdate.log 2>&1
+				if [ "$?" == "0" ]; then
+					source /etc/profile.d/opkginstall.sh
+					if [ -f /etc/inited ]; then
+						[ ! -d /etc/backup ] && mkdir /etc/backup
+						find /usr/lib/opkg/info -name "*.control" \( \
+						\( -exec test -f /overlay/upper/{} \; -exec echo {} \; \) -o \
+						\( -exec test -f /rom/{} \; -exec find {} -name "luci-app*" -o -name "luci-theme*" -o -name "default-settings*" \; \) \
+						\) | sed -e 's?/usr/lib/opkg/info/\(.*\).control$?\1?g' >/etc/backup/installed_packages.txt
+					fi
+					if [ -f "/etc/backup/installed_packages.txt" ]; then
+						sed -i '/luci-app-opkg/d' /etc/backup/installed_packages.txt
+						sed -i '/	rom$/d' /etc/backup/installed_packages.txt
+						sed -i 's/	overlay$//g' /etc/backup/installed_packages.txt
+							for ipk in $(cat /etc/backup/installed_packages.txt); do
+							if [ -f /etc/inited ]; then
+								opkg=$(echo $(opkg list-upgradable) | grep $ipk)
+							else
+								opkg=1
+							fi
+								if [[ "$opkg" ]]; then
+									while :; do
+										opkg upgrade --force-overwrite --force-checksum $ipk >>/tmp/opkgupdate.log 2>&1
+										[[ "$(echo $(opkg list-installed) | grep $ipk)" ]] && {
+											break
+										}
+										[ $c2 == 3 ] && {
+										echo $ipk >> /etc/backup/failed.txt
+										break
+										} || let c2++
+										sleep 1
+									rm -f /var/lock/opkg.lock
+									done
+								fi
+							done
+							rm -f /etc/config/*-opkg
+					fi
+					touch /etc/inited
+					[ -f "/etc/backup/failed.txt" ] && {
+						for ipk in $(cat /etc/backup/failed.txt); do
+							opkg upgrade --force-overwrite --force-checksum $ipk >>/tmp/opkgupdate.log 2>&1
+							[[ "$(echo $(opkg list-installed) | grep $ipk)" ]] && {
+								sed -i '/$ipk/d' /etc/backup/failed.txt
+							}
+						done
+					}
+					rm -f /var/lock/opkg.lock
+					break
+				fi
+				[ $c3 == 10 ] && break || let c3++
+			done
+			rm -f /var/lock/opkg.lock
+}
+(
+	opkgupgrade
+	rm -f /var/lock/opkgupgrade.lock
+	[[ -f "/bin/coremark" && ! -f "/etc/bench.log" ]] && {
+		sleep 5
+		/bin/coremark >/tmp/coremark.log
+		cat /tmp/coremark.log | grep "CoreMark 1.0" | cut -d "/" -f 1 >/etc/bench.log
+		sed -i 's/CoreMark 1.0/(CpuMark/g' /etc/bench.log
+		echo " Scores)" >>/etc/bench.log
+	}
+rm -f $LOCK 
+) &
