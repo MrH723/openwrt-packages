@@ -1,6 +1,0 @@
-config base 'base'
-	option enabled '0'
-
-config log 'log'
-	option path '/tmp/log/phtunnel.log'
-
