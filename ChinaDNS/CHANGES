@@ -1,0 +1,65 @@
+1.3.2 2015-08-05
+- Fix compatibility issues
+
+1.3.1 2015-03-14
+- Update strategy
+
+1.3.0 2015-01-25
+- Support DNS compression pointer mutation
+
+1.2.1 2015-01-01
+- Fix high CPU usage
+
+1.2.0 2015-01-01
+- Happy new year and add a new filter strategy
+
+1.1.9 2014-12-26
+- One Chinese DNS and one foreign DNS requirement is only a warning now
+- Update iplist
+
+1.1.8 2014-11-19
+- Add -d option: also filter results inside China from foreign DNS servers
+
+1.1.7 2014-09-16
+- Add 443 port of OpenDNS as default DNS
+
+1.1.6 2014-09-16
+- Use fgets() for better portability
+- Fix logs format
+
+1.1.5 2014-09-08
+- Support single IP address
+- Update IP list and CHNRoute
+
+1.1.4 2014-08-27
+- Fix logs with stderr
+- Fix remote socket not in nonblocking mode
+- Fix restart function in OpenWRT init script
+
+1.1.3 2014-08-11
+- Make CHNRoute an option
+- Output logs to stderr
+
+1.1.2 2014-08-11
+- Fix mask > 0xFFFF with chnroute
+
+1.1.1 2014-08-08
+- Use CIDR format in chnroute.txt
+
+1.1.0 2014-08-07
+- Support chnroute
+
+1.0.4 2014-08-05
+- Fix IP filter random failures
+
+1.0.3 2014-07-29
+- Fix segment fault when queue is full
+
+1.0.2 2014-07-29
+- Support -s hostname:port
+
+1.0.1 2014-07-28
+- Use autotools
+
+1.0.0 2014-07-25
+- Initial version
