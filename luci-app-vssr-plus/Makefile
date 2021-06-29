@@ -5,9 +5,9 @@ PKG_VERSION:=1.33
 PKG_RELEASE:=4-20200414
 
 PKG_CONFIG_DEPENDS:= CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks \
-	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_V2ray \
-        CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Trojan \
-	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Kcptun:kcptun \
+	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_v2ray-core \
+        CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_trojan \
+	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_kcptun \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Server \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Socks \
@@ -15,9 +15,9 @@ PKG_CONFIG_DEPENDS:= CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ipt2socks \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_microsocks \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_dns2socks \
-	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_dnscrypt_proxy \
+	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_dnscrypt-proxy \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_dnsforwarder \
-	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_ChinaDNS \
+	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_chinadns \
 	CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_haproxy \
         CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_udpspeeder \
         CONFIG_PACKAGE_$(PKG_NAME)_INCLUDE_udp2raw-tunnel \
@@ -35,15 +35,15 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks
 	bool "Include Shadowsocks New Version"
 	default y
 	
-config PACKAGE_$(PKG_NAME)_INCLUDE_V2ray
+config PACKAGE_$(PKG_NAME)_INCLUDE_v2ray-core
 	bool "Include V2ray"
 	default y
 
-config PACKAGE_$(PKG_NAME)_INCLUDE_Trojan
+config PACKAGE_$(PKG_NAME)_INCLUDE_trojan
 	bool "Include Trojan"
 	default y
 	
-config PACKAGE_$(PKG_NAME)_INCLUDE_Kcptun
+config PACKAGE_$(PKG_NAME)_INCLUDE_kcptun
 	bool "Include Kcptun"
 	default y
 	
@@ -75,7 +75,7 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_dns2socks
 	bool "Include dns2socks"
 	default n 
 
-config PACKAGE_$(PKG_NAME)_INCLUDE_dnscrypt_proxy
+config PACKAGE_$(PKG_NAME)_INCLUDE_dnscrypt-proxy
 	bool "Include dnscrypt-proxy-full"
 	default y
 
@@ -83,7 +83,7 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_dnsforwarder
 	bool "Include dnsforwarder"
 	default y
 
-config PACKAGE_$(PKG_NAME)_INCLUDE_ChinaDNS
+config PACKAGE_$(PKG_NAME)_INCLUDE_chinadns
 	bool "Include chinadns"
 	default y
 
@@ -132,9 +132,9 @@ define Package/luci-app-vssr-plus
 	PKGARCH:=all
 	DEPENDS:=+shadowsocksr-libev-alt +ipset +ip-full +iptables-mod-tproxy +dnsmasq-full +coreutils +coreutils-base64 +bash +pdnsd-alt +wget  +tcpping +lua-maxminddb +lua +luasocket +jshn +lua-cjson +coreutils-nohup  +curl \
             +PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks:shadowsocks-libev-ss-redir \
-            +PACKAGE_$(PKG_NAME)_INCLUDE_V2ray:v2ray \
-            +PACKAGE_$(PKG_NAME)_INCLUDE_Trojan:trojan \
-            +PACKAGE_$(PKG_NAME)_INCLUDE_Kcptun:kcptun-client \
+            +PACKAGE_$(PKG_NAME)_INCLUDE_v2ray-core:v2ray-core \
+            +PACKAGE_$(PKG_NAME)_INCLUDE_trojan:trojan \
+            +PACKAGE_$(PKG_NAME)_INCLUDE_kcptun:kcptun \
             +PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server:shadowsocksr-libev-server \
             +PACKAGE_$(PKG_NAME)_INCLUDE_Shadowsocks_Server:shadowsocks-libev-ss-server \
             +PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Socks:shadowsocksr-libev-ssr-local \
@@ -142,9 +142,9 @@ define Package/luci-app-vssr-plus
             +PACKAGE_$(PKG_NAME)_INCLUDE_ipt2socks:ipt2socks \
 	    +PACKAGE_$(PKG_NAME)_INCLUDE_microsocks:microsocks \
 	    +PACKAGE_$(PKG_NAME)_INCLUDE_dns2socks:dns2socks \
-            +PACKAGE_$(PKG_NAME)_INCLUDE_dnscrypt_proxy:dnscrypt-proxy-full \
+            +PACKAGE_$(PKG_NAME)_INCLUDE_dnscrypt-proxy:dnscrypt-proxy \
             +PACKAGE_$(PKG_NAME)_INCLUDE_dnsforwarder:dnsforwarder \
-            +PACKAGE_$(PKG_NAME)_INCLUDE_ChinaDNS:ChinaDNS \
+            +PACKAGE_$(PKG_NAME)_INCLUDE_chinadns:chinadns \
             +PACKAGE_$(PKG_NAME)_INCLUDE_haproxy:haproxy \
             +PACKAGE_$(PKG_NAME)_INCLUDE_privoxy:privoxy \
             +PACKAGE_$(PKG_NAME)_INCLUDE_udpspeeder:udpspeeder \
