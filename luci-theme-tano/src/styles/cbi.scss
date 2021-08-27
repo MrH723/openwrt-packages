@@ -1,0 +1,483 @@
+@import "variables";
+@import "mixins";
+
+.cbi-section-node {
+  @media screen and (min-width: $breakpoint-md) {
+    padding: 4px 0 0 0;
+  }
+}
+
+.cbi-map {
+  margin-bottom: 20px;
+
+  & + .cbi-map {
+    margin-top: 50px;
+  }
+}
+
+.cbi-value {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+
+  @media screen and (min-width: $breakpoint-md) {
+    display: block;
+
+    &::before {
+      content: "";
+      display: block;
+    }
+
+    &::after {
+      clear: both;
+      content: "";
+      display: block;
+    }
+  }
+}
+
+.cbi-value-title {
+  color: $color-gray-lighten-10;
+  display: block;
+  float: left;
+  font-weight: bolder;
+  margin-bottom: 3px;
+  padding-top: ($input-height - $base-line-height) / 2;
+
+  @media screen and (min-width: $breakpoint-md) {
+    font-weight: normal;
+    margin-bottom: 0;
+    margin-right: 16px;
+    min-width: $cbi-title-width;
+    text-align: right;
+    width: $cbi-title-width;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.cbi-value-description,
+.cbi-map-descr,
+.cbi-tab-descr,
+.cbi-section-descr {
+  color: $color-gray-lighten-40;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.cbi-section-descr,
+.cbi-tab-descr,
+.cbi-map-descr {
+  line-height: $base-font-size * 1.3;
+}
+
+.cbi-value-description {
+  font-size: $base-font-size * 0.9;
+  line-height: $base-font-size * 0.9 * 1.3;
+  margin-top: 5px;
+}
+
+.cbi-checkbox + .cbi-value-description {
+  margin-top: 0;
+}
+
+.cbi-section {
+  margin-top: 20px;
+
+  legend,
+  h3 {
+    border-bottom: solid 2px $color-blue-base;
+    font-size: $base-font-size * 1.2;
+    line-height: $base-line-height * 1.2;
+    margin: 10px 0;
+    padding: 5px 0;
+    width: 100%;
+    font-weight: normal;
+  }
+
+  h3 {
+    margin-bottom: 5px;
+  }
+}
+
+/* Keep old styles for h3 on overview page */
+[data-path="admin-status-overview"] {
+  .cbi-section {
+    h3 {
+      @include h(1.4);
+      border-bottom: none;
+      margin-bottom: 5px;
+      padding: 0;
+    }
+  }
+}
+
+.cbi-value > .cbi-section {
+  margin-top: 0;
+}
+
+/* Wireless pages/modals fixes */
+#cbi-wireless > .cbi-section {
+  margin-top: 0;
+
+  .cbi-section {
+    .cbi-value[data-name="_freq"] {
+      .cbi-value-title {
+        br {
+          display: none;
+        }
+      }
+
+      .cbi-value-field > div {
+        display: flex;
+        flex-flow: column;
+        width: 100%;
+
+        label {
+          display: flex;
+          flex-flow: column;
+          width: 100%;
+          margin-bottom: 4px;
+
+          select {
+            flex-basis: auto;
+          }
+        }
+
+        br {
+          display: none;
+        }
+      }
+    }
+
+    .cbi-value[data-name="txpower"] {
+      .cbi-value-field > div {
+        & > span {
+          flex-basis: 100%;
+          margin-top: 8px;
+        }
+      }
+    }
+  }
+}
+
+.cbi-progressbar {
+  @include tooltip-shadow;
+  background-color: $color-gray-lighten-70;
+  border-radius: 12px;
+  height: 24px;
+  overflow: hidden;
+  position: relative;
+
+  div {
+    background-color: $color-blue-lighten-30;
+    height: 100%;
+  }
+
+  &::after {
+    align-items: center;
+    bottom: 0;
+    content: attr(title);
+    display: flex;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.cbi-value-field > .cbi-progressbar {
+  flex-basis: 100%;
+}
+
+.cbi-section-actions > div {
+  display: flex;
+  text-align: right;
+
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+
+  button,
+  input[type="button"],
+  input[type="submit"],
+  div.cbi-button {
+    margin-bottom: 5px;
+    margin-left: 5px;
+    flex-shrink: 1;
+    flex-grow: 1;
+  }
+}
+
+.cbi-value-field {
+  display: flex;
+  flex-wrap: wrap;
+
+  .cbi-value-description {
+    width: 100%;
+  }
+
+  label {
+    display: flex;
+    width: 100%;
+
+    .cbi-input-radio,
+    .cbi-input-checkbox {
+      height: $base-line-height;
+      margin-right: 8px;
+    }
+  }
+
+  & > div[id] {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  & > div.cbi-dynlist {
+    display: block;
+    width: 100%;
+  }
+
+  & > div + div {
+    margin-top: 5px;
+  }
+
+  & > :not([id]):not([class]):first-child {
+    padding-top: ($input-height - $base-line-height) / 2;
+  }
+}
+
+/* Remove top padding for CBI.ButtonValue widgets */
+.cbi-value {
+  &[data-widget="CBI.ButtonValue"] {
+    .cbi-value-field {
+      & > :first-child {
+        padding-top: 0;
+      }
+    }
+  }
+}
+
+.cbi-upload-info {
+  color: $color-green-lighten-5;
+  margin: 7px 0 5px 0;
+  width: 100%;
+}
+
+.cbi-input-radio + label,
+input[type="radio"] + label {
+  display: inline-flex;
+  margin-left: 5px;
+}
+
+.cbi-page-actions {
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (min-width: $breakpoint-sm) {
+    border-radius: 3px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  form {
+    display: inline-block;
+  }
+
+  .cbi-button {
+    width: 100%;
+    display: inline-flex;
+
+    @media screen and (min-width: $breakpoint-sm) {
+      width: auto;
+    }
+  }
+
+  form + form,
+  .cbi-button + .cbi-button {
+    margin-top: 5px;
+
+    @media screen and (min-width: $breakpoint-sm) {
+      margin-left: 6px;
+      margin-top: 0;
+    }
+  }
+}
+
+.cbi-value-field-password {
+  display: flex;
+  flex-wrap: wrap;
+
+  input[type="password"] {
+    flex-shrink: 1;
+    width: auto;
+  }
+
+  .cbi-value-description {
+    &::before {
+      width: 100%;
+    }
+
+    &#passstrength > span {
+      padding-left: 4px;
+    }
+  }
+}
+
+.cbi-dynlist {
+  .item {
+    border: solid 1px $color-gray-lighten-70;
+    border-radius: $border-radius;
+    margin: 5px 0;
+    padding: 5px 10px;
+    pointer-events: none;
+    position: relative;
+    transition: $transition-time;
+
+    &::after {
+      align-items: center;
+      background-color: #ffffff;
+      border-left: solid 1px $color-gray-lighten-70;
+      bottom: 0;
+      color: $color-red-base;
+      content: "\D7";
+      cursor: pointer;
+      display: flex;
+      padding: 5px 10px;
+      pointer-events: auto;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    &:hover {
+      border-color: $color-red-lighten-10;
+    }
+  }
+
+  &.cbi-input-invalid {
+    > div {
+      > input[type="text"],
+      > div.cbi-button {
+        border: solid 1px $color-red-lighten-10;
+      }
+    }
+  }
+}
+
+.cbi-optionals,
+.cbi-section-create {
+  display: flex;
+
+  @media screen and (min-width: $breakpoint-md) {
+    margin-left: $cbi-title-width + 16px;
+  }
+}
+
+.cbi-section-create {
+  justify-content: flex-end;
+  margin-top: 16px;
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  & > div {
+    display: flex;
+    margin: 0 5px 0 10px;
+    width: 100%;
+  }
+}
+
+/* Fix cbi-section-create in DHCP-server tab
+ * at network interface configuration */
+div#cbi-dhcp-dhcp {
+  margin-top: 0;
+
+  & > .cbi-section-create {
+    flex-flow: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    margin-left: 0;
+    margin-top: 0;
+
+    & > p {
+      margin-bottom: 5px;
+      flex-basis: 100%;
+      text-align: center;
+    }
+  }
+}
+
+.cbi-section-remove {
+  margin-top: 10px;
+  padding: 10px 0;
+}
+
+.cbi-section-node + .cbi-section-remove {
+  border-top: dotted 1px $color-gray-lighten-60;
+  padding: 20px 0px 10px 10px;
+}
+
+.cbi-section-error {
+  border: solid 1px;
+  border-radius: $border-radius;
+  padding: 5px 10px;
+
+  @include alert($color-red-darken-5, $color-red-lighten-30, $color-red-darken-5);
+}
+
+.cbi-value-error {
+  input[type="text"],
+  input[type="password"],
+  select,
+  textarea {
+    border-color: $color-red-lighten-10;
+
+    &:focus {
+      @include input-shadow($color-red-lighten-10);
+    }
+  }
+
+  .cbi-value-title {
+    color: $color-red-lighten-10;
+  }
+}
+
+.ui-select {
+  &[data-widget="radio"] {
+    margin-top: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    &[data-orientation="vertical"] {
+      flex-direction: column;
+    }
+
+    > .cbi-radio {
+      cursor: pointer;
+      margin-right: 10px;
+      margin-top: 7px;
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      align-items: flex-start;
+
+      > input[type=radio] {
+        margin-top: 2px;
+      }
+
+      > label {
+        display: none !important;
+      }
+
+      > span {
+        margin-left: 6px;
+      }
+    }
+  }
+}
