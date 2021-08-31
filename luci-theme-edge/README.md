@@ -3,9 +3,9 @@
 [1]: https://img.shields.io/badge/license-MIT-brightgreen.svg
 [2]: /LICENSE
 [3]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg
-[4]: https://github.com/https://github.com/garypang13/luci-theme-edge/pulls
+[4]: https://github.com/https://github.com/kiddin9/luci-theme-edge/pulls
 [5]: https://img.shields.io/badge/Issues-welcome-brightgreen.svg
-[6]: https://github.com/https://github.com/garypang13/luci-theme-edge/issues/new
+[6]: https://github.com/https://github.com/kiddin9/luci-theme-edge/issues/new
 [7]: https://img.shields.io/badge/release-v2.1-blue.svg?
 [10]: https://img.shields.io/badge/Contact-telegram-blue
 [11]: https://t.me/openwrt_nginx
@@ -20,7 +20,7 @@ A new Luci theme for LEDE/OpenWRT
 Edge is a clean HTML5 theme for LuCI. It is based on luci-theme-argon Template  
 
 Master branch adapt to official mainline snapshot.
-Luci 18.06: https://github.com/garypang13/luci-theme-edge/tree/18.06
+Luci 18.06: https://github.com/kiddin9/luci-theme-edge/tree/18.06
 
 ## Thanks to 
 luci-theme-argon: https://github.com/jerrykuku/luci-theme-argon

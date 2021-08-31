@@ -2,10 +2,10 @@
  *  Edge is a clean HTML5 theme for LuCI. It is based on luci-theme-Argon
  *
  *  luci-theme-edge
- *      Copyright 2020 Garypang <garyp@qq.com>
+ *      Copyright 2020 Kiddin'
  *
  *  Have a bug? Please create an issue here on GitHub!
- *      https://github.com/garypang13/luci-theme-edge/issues
+ *      https://github.com/kiddin9/luci-theme-edge/issues
  *
  *  luci-theme-material: 
  *      Copyright 2015 Lutty Yang <lutty@wcan.in>

@@ -2,10 +2,10 @@
  *  Edge is a clean HTML5 theme for LuCI. It is based on luci-theme-Argon
  *
  *  luci-theme-edge
- *      Copyright 2020 Garypang <garyp@qq.com>
+ *      Copyright 2020 Kiddin'
  *
  *  Have a bug? Please create an issue here on GitHub!
- *      https://github.com/garypang13/luci-theme-edge/issues
+ *      https://github.com/kiddin9/luci-theme-edge/issues
  *
  *  luci-theme-material: header
  *      Copyright 2015 Lutty Yang <lutty@wcan.in>
@@ -1561,6 +1561,14 @@ ul.tabs,.tabmenu .tabs,#tabmenu .tabs,ul.cbi-tabmenu {
 #packages{
 	margin-left: -2%;
     width: 105%;
+}
+
+#packages td.col-10 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 30em;
+    overflow: hidden;
 }
 
 .cbi-tabmenu > li:hover {
@@ -3261,7 +3269,7 @@ input[type="checkbox"]:checked {
 
 	table {
 		font-size: 0.7rem !important;
-		width: 100% !important;
+		width: 100%;
 	}
 
 	.table .cbi-input-text {
